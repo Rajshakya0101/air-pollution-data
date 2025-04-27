@@ -1,18 +1,21 @@
 import requests
-import json
 import pandas as pd
 from datetime import datetime
 from pymongo import MongoClient
 
-# MongoDB connection string (replace <username> and <password> with your credentials)
+# MongoDB URI (replace with your actual credentials)
 MONGO_URI = "mongodb+srv://rs7267887611:r18a1j10@air-pollutant-data.uf29efr.mongodb.net/?retryWrites=true&w=majority&appName=air-pollutant-datay"
+client = MongoClient(MONGO_URI)
 
-# MongoDB connection with SSL enabled
-client = MongoClient(MONGO_URI, ssl=True)
+# Connect to MongoDB database
+db = client['air_quality_data']
 
-# Connect to the MongoDB database and collection
-db = client['air_quality_data']  # Database name
-collection = db['stations']  # Collection name
+# Generate collection name as current date and timestamp (DD/MM/YYYY-HH:MM:SS)
+current_timestamp = datetime.now().strftime('%d/%m/%Y-%H:%M:%S')
+collection_name = current_timestamp
+
+# Dynamically create collection using the generated name
+collection = db[collection_name]
 
 # Replace with your actual token
 TOKEN = '536eb79029c66d0592e5252536b5dfe4298c4e65'
@@ -68,4 +71,4 @@ for index, row in pollution_stations_df.iterrows():
 # with open('all_station_complete_air_quality_data.json', 'w') as json_file:
 #     json.dump(all_station_data, json_file, indent=4)
 
-print("All complete data has been saved to 'all_station_complete_air_quality_data.json'.")
+print("All complete data has been successfully fetched and saved in database")
