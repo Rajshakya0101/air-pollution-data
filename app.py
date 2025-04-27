@@ -1,6 +1,7 @@
 import requests
 import pandas as pd
 from datetime import datetime
+import pytz
 from pymongo import MongoClient
 
 # MongoDB URI (replace with your actual credentials)
@@ -18,8 +19,13 @@ except Exception as e:
 # Connect to MongoDB database
 db = client['air_quality_data']
 
-# Generate collection name as current date and timestamp (DD/MM/YYYY-HH:MM:SS)
-current_timestamp = datetime.now().strftime('%d/%m/%Y-%H:%M:%S')
+# Get the IST timezone
+india_timezone = pytz.timezone('Asia/Kolkata')
+
+# Get current time in IST
+current_timestamp = datetime.now(india_timezone).strftime('%d/%m/%Y-%H:%M:%S')
+
+# Use the IST time as the collection name
 collection_name = current_timestamp
 
 # Dynamically create collection using the generated name
