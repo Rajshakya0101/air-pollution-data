@@ -3,13 +3,12 @@ import json
 import pandas as pd
 from datetime import datetime
 from pymongo import MongoClient
-import ssl
 
 # MongoDB connection string (replace <username> and <password> with your credentials)
 MONGO_URI = "mongodb+srv://rs7267887611:r18a1j10@cluster0.mongodb.net/air_quality_data?retryWrites=true&w=majority"
 
-# Try connecting with explicit SSL options
-client = MongoClient(MONGO_URI, ssl=True, ssl_cert_reqs=ssl.CERT_NONE)
+# MongoDB connection with SSL enabled
+client = MongoClient(MONGO_URI, ssl=True)
 
 # Connect to the MongoDB database and collection
 db = client['air_quality_data']  # Database name
@@ -66,7 +65,7 @@ for index, row in pollution_stations_df.iterrows():
         print(f"Failed to retrieve data for station: {station_name}")
 
 # Optionally, save all the fetched data (including complete API responses) to a JSON file
-with open('all_station_complete_air_quality_data.json', 'w') as json_file:
-    json.dump(all_station_data, json_file, indent=4)
+# with open('all_station_complete_air_quality_data.json', 'w') as json_file:
+#     json.dump(all_station_data, json_file, indent=4)
 
 print("All complete data has been saved to 'all_station_complete_air_quality_data.json'.")
