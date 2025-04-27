@@ -5,7 +5,7 @@ from datetime import datetime
 from pymongo import MongoClient
 
 # MongoDB connection string (replace <username> and <password> with your credentials)
-MONGO_URI = "mongodb+srv://rs7267887611:r18a1j10@cluster0.mongodb.net/air_quality_data?retryWrites=true&w=majority"
+MONGO_URI = "mongodb+srv://rs7267887611:r18a1j10@air-pollutant-data.uf29efr.mongodb.net/?retryWrites=true&w=majority&appName=air-pollutant-datay"
 
 # MongoDB connection with SSL enabled
 client = MongoClient(MONGO_URI, ssl=True)
