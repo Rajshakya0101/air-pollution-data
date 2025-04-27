@@ -3,6 +3,7 @@ name: Daily Air Pollution Data Collection
 on:
   schedule:
     - cron: '40 23 * * *'  # This runs the script every day at 11:40 PM UTC
+  workflow_dispatch:
 
 jobs:
   collect_data:
