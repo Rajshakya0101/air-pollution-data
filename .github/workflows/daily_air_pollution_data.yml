@@ -1,6 +1,9 @@
 name: Run Python Script for Air Pollution Data
 
 on:
+  schedule:
+    # Runs daily at 11:45 PM IST (6:15 PM UTC)
+    - cron: '15 18 * * *'
   workflow_dispatch:
 
 jobs:
