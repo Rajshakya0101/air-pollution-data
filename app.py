@@ -2,10 +2,18 @@ import requests
 import pandas as pd
 from datetime import datetime
 from pymongo import MongoClient
+import ssl
 
 # MongoDB URI (replace with your actual credentials)
 MONGO_URI = "mongodb+srv://rs7267887611:r18a1j10@air-pollutant-data.uf29efr.mongodb.net/?retryWrites=true&w=majority&appName=air-pollutant-datay"
-client = MongoClient(MONGO_URI)
+
+# Set up the MongoDB connection with SSL/TLS handling
+try:
+    client = MongoClient(MONGO_URI, ssl=True, ssl_cert_reqs=ssl.CERT_NONE)  # Disable certificate verification for troubleshooting
+    print("MongoDB connected successfully.")
+except Exception as e:
+    print(f"Error connecting to MongoDB: {e}")
+    exit(1)  # Exit if the connection fails
 
 # Connect to MongoDB database
 db = client['air_quality_data']
@@ -61,9 +69,12 @@ for index, row in pollution_stations_df.iterrows():
         all_station_data.append(station_data)
 
         # Insert data into MongoDB collection
-        collection.insert_one(station_data)  # Insert the document into MongoDB
+        try:
+            collection.insert_one(station_data)  # Insert the document into MongoDB
+            print(f"Data fetched and stored for station: {station_name}")
+        except Exception as e:
+            print(f"Failed to insert data for station {station_name}: {e}")
 
-        print(f"Data fetched and stored for station: {station_name}")
     else:
         print(f"Failed to retrieve data for station: {station_name}")
 
