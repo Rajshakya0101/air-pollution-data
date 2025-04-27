@@ -2,14 +2,13 @@ import requests
 import pandas as pd
 from datetime import datetime
 from pymongo import MongoClient
-import ssl
 
 # MongoDB URI (replace with your actual credentials)
 MONGO_URI = "mongodb+srv://rs7267887611:r18a1j10@air-pollutant-data.uf29efr.mongodb.net/?retryWrites=true&w=majority&appName=air-pollutant-datay"
 
-# Set up the MongoDB connection with SSL/TLS handling
+# Set up the MongoDB connection without specifying SSL options
 try:
-    client = MongoClient(MONGO_URI, ssl=True, ssl_cert_reqs=ssl.CERT_NONE)  # Disable certificate verification for troubleshooting
+    client = MongoClient(MONGO_URI)
     print("MongoDB connected successfully.")
 except Exception as e:
     print(f"Error connecting to MongoDB: {e}")
