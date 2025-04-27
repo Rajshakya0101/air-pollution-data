@@ -24,9 +24,11 @@ india_timezone = pytz.timezone('Asia/Kolkata')
 
 # Get current time in IST
 current_timestamp = datetime.now(india_timezone).strftime('%d/%m/%Y-%H:%M:%S')
+current_date = datetime.now(india_timezone).strftime('%Y-%m-%d %H:%M:%S')
 
 # Use the IST time as the collection name
 collection_name = current_timestamp
+date = current_date
 
 # Dynamically create collection using the generated name
 collection = db[collection_name]
@@ -63,7 +65,7 @@ for index, row in pollution_stations_df.iterrows():
     if data['status'] == 'ok':
         # Prepare the data for saving, including the complete API response
         station_data = {
-            'date': datetime.now(india_timezone).strftime('%Y-%m-%d %H:%M:%S'),
+            'date': date,
             'state': state,
             'city': city,
             'station_name': station_name,
