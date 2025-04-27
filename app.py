@@ -95,14 +95,14 @@ for index, row in pollution_stations_df.iterrows():
             print(f"Data fetched and stored for station: {station_name}")
         except Exception as e:
             print(f"Failed to insert data for station {station_name}: {e}")
-            message = f"⚠️ **Oops! Something went wrong...** ⚠️\n\n❌ **Air Pollution Data Script encountered an error!**\n\n🚨 An unexpected hiccup occurred during the execution of the script. Don’t worry, we’re on it! Check the logs to dive deeper into the issue.\n\n📅 **Timestamp:** {current_date}\n\n🔎 Stay tuned, we’ll fix this ASAP! ⏳\n\n#ErrorAlert #ScriptFail #Troubleshooting"
+            message = f"⚠️ **Oops! Something went wrong...** ⚠️\n\n❌ **Air Pollution Data Script encountered an error!**\n\n🚨 An unexpected hiccup occurred during the execution of the script. Don’t worry, we’re on it! Check the logs to dive deeper into the issue.\n\n📅 **Timestamp:** {current_date}\n\n🔎 Stay tuned, we’ll fix this ASAP! ⏳"
             asyncio.run(send_telegram_message(message))
             exit(1)
     else:
         print(f"Failed to retrieve data for station: {station_name}")
 
 # If the script runs successfully, send a success message to Telegram
-message = f"🎉 **Success Alert!** 🎉\n\n🚀 **Air Pollution Data Script has executed successfully!**\n\n💾 The data has been fetched from all stations and safely stored in the database. Everything went smoothly, and the air quality data is now up-to-date and ready to be analyzed!\n\n📅 **Timestamp:** {current_date}\n\n🔧 No issues detected. All systems are go! ✅\n\n#AirQualityData #MissionAccomplished"
+message = f"🎉 **Success Alert!** 🎉\n\n🚀 **Air Pollution Data Script has executed successfully!**\n\n💾 The data has been fetched from all stations and safely stored in the database. Everything went smoothly, and the air quality data is now up-to-date and ready to be analyzed!\n\n📅 **Timestamp:** {current_date}\n\n🔧 No issues detected. All systems are go! ✅"
 asyncio.run(send_telegram_message(message))
 
 # Optionally, save all the fetched data (including complete API responses) to a JSON file
