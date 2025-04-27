@@ -2,10 +2,16 @@ import requests
 import pandas as pd
 from datetime import datetime
 import pytz
+import asyncio
 from pymongo import MongoClient
+from telegram import Bot
 
 # MongoDB URI (replace with your actual credentials)
 MONGO_URI = "mongodb+srv://rs7267887611:r18a1j10@air-pollutant-data.uf29efr.mongodb.net/?retryWrites=true&w=majority&appName=air-pollutant-datay"
+
+# Telegram Bot details (replace with your actual values)
+TELEGRAM_TOKEN = '8129297926:AAGQ_WW2ff56Rjl3LQAqgLH2-PiQP2obC6Y'
+CHAT_ID = '806061568'  # Get this from the `getUpdates` method
 
 # MongoDB connection with SSL/TLS settings (disable SSL validation for testing)
 try:
@@ -36,12 +42,19 @@ collection = db[collection_name]
 # Replace with your actual token
 TOKEN = '536eb79029c66d0592e5252536b5dfe4298c4e65'
 
+# Initialize the Telegram bot outside the loop so it's available for both success and error messages
+bot = Bot(token=TELEGRAM_TOKEN)
+
 # Load the CSV file containing the station data
 file_path = 'Air_Pollution_Stations.csv'  # Your uploaded file path
 pollution_stations_df = pd.read_csv(file_path)
 
 # Prepare a list to store all the fetched complete data
 all_station_data = []
+
+# Function to send message asynchronously to Telegram
+async def send_telegram_message(message):
+    await bot.send_message(chat_id=CHAT_ID, text=message)
 
 # Loop through each row in the CSV and fetch data for each station
 for index, row in pollution_stations_df.iterrows():
@@ -82,8 +95,15 @@ for index, row in pollution_stations_df.iterrows():
             print(f"Data fetched and stored for station: {station_name}")
         except Exception as e:
             print(f"Failed to insert data for station {station_name}: {e}")
+            message = f"⚠️ **Oops! Something went wrong...** ⚠️\n\n❌ **Air Pollution Data Script encountered an error!**\n\n🚨 An unexpected hiccup occurred during the execution of the script. Don’t worry, we’re on it! Check the logs to dive deeper into the issue.\n\n📅 **Timestamp:** {current_date}\n\n🔎 Stay tuned, we’ll fix this ASAP! ⏳\n\n#ErrorAlert #ScriptFail #Troubleshooting"
+            asyncio.run(send_telegram_message(message))
+            exit(1)
     else:
         print(f"Failed to retrieve data for station: {station_name}")
+
+# If the script runs successfully, send a success message to Telegram
+message = f"🎉 **Success Alert!** 🎉\n\n🚀 **Air Pollution Data Script has executed successfully!**\n\n💾 The data has been fetched from all stations and safely stored in the database. Everything went smoothly, and the air quality data is now up-to-date and ready to be analyzed!\n\n📅 **Timestamp:** {current_date}\n\n🔧 No issues detected. All systems are go! ✅\n\n#AirQualityData #MissionAccomplished"
+asyncio.run(send_telegram_message(message))
 
 # Optionally, save all the fetched data (including complete API responses) to a JSON file
 # with open('all_station_complete_air_quality_data.json', 'w') as json_file:
