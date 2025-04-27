@@ -63,7 +63,7 @@ for index, row in pollution_stations_df.iterrows():
     if data['status'] == 'ok':
         # Prepare the data for saving, including the complete API response
         station_data = {
-            'date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'date': datetime.now(india_timezone).strftime('%Y-%m-%d %H:%M:%S'),
             'state': state,
             'city': city,
             'station_name': station_name,
