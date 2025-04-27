@@ -6,13 +6,14 @@ from pymongo import MongoClient
 # MongoDB URI (replace with your actual credentials)
 MONGO_URI = "mongodb+srv://rs7267887611:r18a1j10@air-pollutant-data.uf29efr.mongodb.net/?retryWrites=true&w=majority&appName=air-pollutant-datay"
 
-# Set up the MongoDB connection without specifying SSL options
+# MongoDB connection with SSL/TLS settings (disable SSL validation for testing)
 try:
-    client = MongoClient(MONGO_URI)
+    # Disabling SSL certificate verification (use with caution, only for testing)
+    client = MongoClient(MONGO_URI, tls=True, tlsAllowInvalidCertificates=True)
     print("MongoDB connected successfully.")
 except Exception as e:
     print(f"Error connecting to MongoDB: {e}")
-    exit(1)  # Exit if the connection fails
+    exit(1)
 
 # Connect to MongoDB database
 db = client['air_quality_data']
@@ -73,7 +74,6 @@ for index, row in pollution_stations_df.iterrows():
             print(f"Data fetched and stored for station: {station_name}")
         except Exception as e:
             print(f"Failed to insert data for station {station_name}: {e}")
-
     else:
         print(f"Failed to retrieve data for station: {station_name}")
 
