@@ -1,32 +1,26 @@
-name: Daily Air Pollution Data Collection
+name: Run Python Script for Air Pollution Data
 
 on:
-  schedule:
-    - cron: '40 23 * * *'  # This runs the script every day at 11:40 PM UTC
   workflow_dispatch:
 
 jobs:
-  collect_data:
-    runs-on: ubuntu-latest  # Use the latest Ubuntu environment
+  run_script:
+    runs-on: ubuntu-latest
 
     steps:
-    # Checkout the repository code
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v2
 
-    # Set up Python environment
-    - name: Set up Python 3.x
+    - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.x'  # Use the latest Python version
+        python-version: '3.9'  # or the version you're using locally
 
-    # Install dependencies
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt  # Install all dependencies from the requirements.txt
+        pip install -r requirements.txt  # or install pymongo directly
 
-    # Run the Python script
-    - name: Run the data collection script
+    - name: Run Python script
       run: |
-        python app.py  # Run the app.py script to collect the data
+        python app.py  # Run your script
