@@ -2,8 +2,8 @@ name: Run Python Script for Air Pollution Data
 
 on:
   schedule:
-    # Runs daily at 9:00 AM IST (3:30 AM UTC)
-    - cron: '30 3 * * *'
+    # Runs daily at 11:00 PM IST (17:30 PM UTC)
+    - cron: '30 17 * * *'
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
