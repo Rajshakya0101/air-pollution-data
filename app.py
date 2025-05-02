@@ -29,7 +29,7 @@ db = client['air_quality_data']
 india_timezone = pytz.timezone('Asia/Kolkata')
 
 # Get current time in IST
-current_timestamp = datetime.now(india_timezone).strftime('%d/%m/%Y-%H:%M:%S')
+current_timestamp = datetime.now(india_timezone).strftime('%d-%m-%Y %H:%M:%S')
 current_date = datetime.now(india_timezone).strftime('%Y-%m-%d %H:%M:%S')
 
 # Use the IST time as the collection name
